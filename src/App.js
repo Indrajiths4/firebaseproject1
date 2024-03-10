@@ -1,7 +1,7 @@
 import './App.css';
 import {useState} from "react";
 import {app, database} from './firebaseConfig'
-import {collection, addDoc, getDocs, doc, updateDoc} from 'firebase/firestore'
+import {collection, addDoc, getDocs, doc, updateDoc, deleteDoc} from 'firebase/firestore'
 
 function App() {
   
@@ -33,11 +33,10 @@ function App() {
     })
   };
 
-  const updateData = () => {
+  const deleteData = () => {
     const docToUpdate = doc(database,'users','3bxIQmvYfyfaFZZyZWu2')
-    updateDoc(docToUpdate, {
-      email: 'ABC',
-      password: 123
+    deleteDoc(docToUpdate).then(() => { console.log('data deleted')}).catch((err) => {
+      console.log(err.message)
     })
   };
 
@@ -47,7 +46,7 @@ function App() {
         <input name="email" placeholder='Email' onChange={(event) =>handleInput(event)}></input>
         <input name='password' placeholder='Password' onChange={(event) => handleInput(event)}></input>
         <br></br>
-        <button onClick={updateData}>Submit</button>
+        <button onClick={deleteData}>Submit</button>
       
     </div>
   );
